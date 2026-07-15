@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import 'tailwindcss';
+
+/*
+ * Premium Travel Marketplace Design System
+ * Soft rounded corners, aqua accent, premium shadows, modern sans-serif body.
+ */
+
+@theme {
+  /* ── Typography ────────────────────────────────────────── */
+  --font-display: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+
+  /* ── Color Palette ────────────────────────────────────── */
+  --color-primary: #24dbc9;
+  --color-primary-hover: #12c7b6;
+  --color-primary-light: #d8fbf8;
+  --color-page: #f8fcfc;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0fafa;
+  --color-ink: #0f172a;
+  --color-ink-secondary: #64748b;
+  --color-ink-tertiary: #94a3b8;
+  --color-ink-faint: #cbd5e1;
+  --color-border: #e5f4f3;
+  --color-border-strong: #b8e8e3;
+  --color-overlay: rgba(15, 23, 42, 0.4);
+
+  /* ── Spacing Scale (editorial generous whitespace) ───── */
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
+
+  /* ── Animation ─────────────────────────────────────────── */
+  --ease-premium: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-base: 0.3s;
+  --duration-slow: 0.5s;
+
+  /* ── Shadows ───────────────────────────────────────────── */
+  --shadow-card: 0 4px 24px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 20px 60px rgba(15, 23, 42, 0.08);
+  --shadow-float: 0 8px 32px rgba(15, 23, 42, 0.1);
+  --shadow-glow: 0 0 20px rgba(36, 219, 201, 0.3);
+
+  /* ── Border Radius ─────────────────────────────────────── */
+  --radius-card: 24px;
+  --radius-button: 16px;
+  --radius-input: 12px;
+  --radius-badge: 8px;
+}
+
+/* ── Base Styles ─────────────────────────────────────────── */
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Selection ───────────────────────────────────────────── */
+
+::selection {
+  background-color: var(--color-primary-light);
+  color: var(--color-ink);
+}
+
+/* ── Focus Ring ──────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Sonner Toast Overrides ──────────────────────────────── */
+
+[data-sonner-toaster] [data-sonner-toast] {
+  --normal-bg: var(--color-ink);
+  --normal-text: #ffffff;
+  --normal-border: transparent;
+  border-radius: var(--radius-input);
+  font-family: var(--font-body);
+}

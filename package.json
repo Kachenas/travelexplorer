@@ -1,0 +1,49 @@
+{
+  "name": "allawie",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write src",
+    "db:migration:new": "npx supabase migration new",
+    "db:push": "npx supabase db push",
+    "db:reset": "npx supabase db reset",
+    "db:types": "npx supabase gen types typescript --local > src/types/supabase.ts",
+    "db:studio": "npx supabase studio",
+    "supabase:start": "npx supabase start",
+    "supabase:stop": "npx supabase stop",
+    "functions:serve": "npx supabase functions serve",
+    "functions:deploy": "npx supabase functions deploy"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.2.0",
+    "@supabase/ssr": "^0.12.1",
+    "@supabase/supabase-js": "^2.110.3",
+    "@tanstack/react-query": "^5.101.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.42.2",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "prettier": "^3.9.5",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "supabase": "^2.109.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
