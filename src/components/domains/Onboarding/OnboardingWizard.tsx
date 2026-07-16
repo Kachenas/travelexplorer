@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { cn } from '@/utils/cn'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { completeOnboardingAction } from '@/actions/profile-actions'
+import { completeOnboardingAction, uploadDocumentsAction } from '@/actions/profile-actions'
 import { createVanAction } from '@/actions/van-actions'
 import { createAccommodationAction } from '@/actions/accommodation-actions'
 import { createTourAction } from '@/actions/tour-actions'
@@ -87,11 +87,10 @@ export function OnboardingWizard({ fullName }: OnboardingWizardProps) {
     if (businessPermitFile) formData.append('business_permit', businessPermitFile)
     if (documentFile) formData.append('document', documentFile)
 
-    const res = await fetch('/api/upload/documents', { method: 'POST', body: formData })
-    const json = await res.json()
+    const result = await uploadDocumentsAction(formData)
 
-    if (!res.ok) {
-      toast.error(json.error ?? 'Failed to upload documents')
+    if (result.error) {
+      toast.error(result.error)
       return false
     }
     return true

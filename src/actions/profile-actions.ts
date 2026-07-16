@@ -5,6 +5,10 @@ import { createClient } from '@/lib/supabase/server'
 import { onboardingProfileSchema } from '@/lib/validations/profile-schema'
 import * as profileService from '@/services/ProfileService'
 
+const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
+const DOCUMENT_FIELDS = ['identification', 'business_permit', 'document'] as const
+
 export async function getProfileAction() {
   const supabase = await createClient()
   const {
@@ -68,4 +72,61 @@ export async function completeOnboardingAction(payload: {
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Failed to complete onboarding' }
   }
+}
+
+export async function uploadDocumentsAction(formData: FormData) {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'Not authenticated' }
+
+  const updates: Record<string, string> = {}
+
+  for (const field of DOCUMENT_FIELDS) {
+    const file = formData.get(field)
+    if (!file || !(file instanceof File) || file.size === 0) continue
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return { error: `${field}: only JPG, JPEG, and PNG images are accepted` }
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      return { error: `${field}: file exceeds 10 MB limit` }
+    }
+
+    const ext = file.type === 'image/png' ? 'png' : 'jpg'
+    const path = `${user.id}/${field}.${ext}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('owner-documents')
+      .upload(path, file, { upsert: true })
+
+    if (uploadError) {
+      return { error: `Failed to upload ${field}: ${uploadError.message}` }
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('owner-documents').getPublicUrl(path)
+
+    updates[field] = publicUrl
+  }
+
+  if (Object.keys(updates).length === 0) {
+    return { error: 'No files provided' }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase.from('profiles') as any)
+    .update(updates)
+    .eq('id', user.id)
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  revalidatePath('/onboarding')
+  return {}
 }

@@ -50,7 +50,7 @@ export async function signInAction(formData: FormData) {
 export async function signOutAction() {
   const supabase = await createClient()
   await supabase.auth.signOut()
-  redirect('/login')
+  redirect('/')
 }
 
 export async function resetPasswordAction(formData: FormData) {

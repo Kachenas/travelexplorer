@@ -2,7 +2,7 @@ import { LoginForm } from '@/components/domains/Auth/LoginForm'
 
 export default function LoginPage() {
   return (
-    <div className="bg-page flex min-h-screen items-center justify-center">
+    <div className="bg-page flex min-h-[calc(100vh-72px)] items-center justify-center">
       <div className="bg-surface shadow-float w-full max-w-sm space-y-6 rounded-[var(--radius-card)] p-8">
         <div className="text-center">
           <h1 className="text-ink font-[family-name:var(--font-display)] text-3xl font-bold">
